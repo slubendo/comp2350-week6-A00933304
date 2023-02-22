@@ -38,7 +38,7 @@ router.post('/addUser', async (req, res) => {
    console.log(err);
    }
    });
-   
+
 
    router.get('/deleteUser', async (req, res) => {
 	console.log("delete user");

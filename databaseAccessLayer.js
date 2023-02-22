@@ -19,6 +19,8 @@ async function getAllUsers() {
 	}
 }
 
+const passwordPepper = "SeCretPeppa4MySal+";
+
 async function addUser(postData) {
 	let sqlInsertSalt = `
    INSERT INTO web_user (first_name, last_name, email, password_salt)

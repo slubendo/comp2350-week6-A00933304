@@ -17,7 +17,7 @@ const dbConfigLocal = {
 	password: "Password",
 	database: "database1",
 	multipleStatements: false,
-	nameDPlaceholders: true,
+	namedPlaceholders: true,
 
 };
 

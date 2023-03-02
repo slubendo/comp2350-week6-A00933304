@@ -1,10 +1,10 @@
 const database = include('/databaseConnection');
 
 
-async function getAllUsers() { 	
+async function getAllRestaurants() { 	
 	let sqlQuery = `
-		SELECT web_user_id, first_name, last_name, email
-		FROM web_user;
+		SELECT name, description
+		FROM restaurant_review;
 	`;
 
 	try {
@@ -19,10 +19,10 @@ async function getAllUsers() {
 	}
 }
 
-async function getAllUsers() {
+async function getAllReviews() {
 	let sqlQuery = `
-		SELECT web_user_id, first_name, last_name, email
-		FROM web_user;
+		SELECT details, reviewer_name, rating,
+		FROM review;
 	`;
 
 	try {
@@ -40,9 +40,9 @@ async function getAllUsers() {
 
 const passwordPepper = "SeCretPeppa4MySal+";
 
-async function addUser(postData) {
+async function addRestaurant(postData) {
 	let sqlInsertSalt = `
-   INSERT INTO web_user (first_name, last_name, email, password_salt)
+   INSERT INTO restaurant (name, description, password_salt)
    VALUES (:first_name, :last_name, :email, sha2(UUID(),512));
    `;
 	let params = {
@@ -55,9 +55,9 @@ async function addUser(postData) {
 		const results = await database.query(sqlInsertSalt, params);
 		let insertedID = results.insertId;
 		let updatePasswordHash = `
-   UPDATE web_user
+   UPDATE restaurant
    SET password_hash = sha2(concat(:password,:pepper,password_salt),512)
-   WHERE web_user_id = :userId;
+   WHERE restaurant = :userId;
    `;
 		let params2 = {
 			password: postData.password,
@@ -74,10 +74,10 @@ async function addUser(postData) {
 	}
 }
 
-async function addUser(postData) {
+async function addReview(postData) {
 	let sqlInsertSalt = `
-   INSERT INTO web_user (first_name, last_name, email, password_salt)
-   VALUES (:first_name, :last_name, :email, sha2(UUID(),512));
+   INSERT INTO review (restaurant, reviewer_name, details, rating, password_salt)
+   VALUES (:first_name, :last_name, :email, :last_name, sha2(UUID(),512));
    `;
 	let params = {
 		first_name: postData.first_name,
@@ -89,9 +89,9 @@ async function addUser(postData) {
 		const results = await database.query(sqlInsertSalt, params);
 		let insertedID = results.insertId;
 		let updatePasswordHash = `
-   UPDATE web_user
+   UPDATE review
    SET password_hash = sha2(concat(:password,:pepper,password_salt),512)
-   WHERE web_user_id = :userId;
+   WHERE review = :userId;
    `;
 		let params2 = {
 			password: postData.password,
@@ -108,10 +108,10 @@ async function addUser(postData) {
 	}
 }
 
-async function deleteUser(webUserId) {
+async function deleteRestaurant(webUserId) {
 	let sqlDeleteUser = `
-   DELETE FROM web_user
-   WHERE web_user_id = :userID
+   DELETE FROM restaurant
+   WHERE restaurant_id = :userID
    `;
 	let params = {
 		userID: webUserId
@@ -127,10 +127,10 @@ async function deleteUser(webUserId) {
 	}
 }
 
-async function deleteUser(webUserId) {
+async function deleteReview(webUserId) {
 	let sqlDeleteUser = `
-   DELETE FROM web_user
-   WHERE web_user_id = :userID
+   DELETE FROM restaurant_review
+   WHERE restaurant_review_id = :userID
    `;
 	let params = {
 		userID: webUserId
@@ -147,4 +147,4 @@ async function deleteUser(webUserId) {
 }
 
 
-module.exports = { getAllUsers, addUser, deleteUser }
+module.exports = { getAllRestaurants, getAllReviews, addRestaurant, deleteRestaurant, deleteRestaurant, addReview }

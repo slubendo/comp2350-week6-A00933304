@@ -8,14 +8,16 @@ const dbConfigQoddi = {
 	password: "QF&#t#tYSbC!5J3",
 	database: "freedb_comp2350-week2-A00933304",
 	multipleStatements: false,
+	namedPlaceholders: true,
 };
 
 const dbConfigLocal = {
 	host: "localhost",
 	user: "root",
-	password: "7434Vuvu",
+	password: "7434vuvu",
 	database: "restaurant_review",
 	multipleStatements: false,
+	namedPlaceholders: true,
 };
 
 if (is_qoddi) {

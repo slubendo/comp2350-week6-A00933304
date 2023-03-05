@@ -2,9 +2,9 @@
 <html>
 
 <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="bulma.min.css">
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"> </script>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="bulma.min.css">
+	<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"> </script>
 </head>
 
 <body>
@@ -12,7 +12,7 @@
         <div class="maincolumns columns is-desktop is-vcentered">
             <div class="column is-10 is-offset-1 notification is-info is-light box container">
                 <div class="title">
-                    Reviews for Mya Taco
+                    Reviews 
                 </div>
                 <% if (locals.allUsers) { %>
                     <div class="table-container">
@@ -29,15 +29,15 @@
                                 <% for(i=0; i < allUsers.length; i++) { %>
                                     <tr>
                                         <td>
-                                            <%= allUsers[i].first_name %>
+                                            <%= allUsers[i].details %>
                                         </td>
                                         <td>
-                                            <%= allUsers[i].last_name %>
+                                            <%= allUsers[i].reviewer_name %>
                                         </td>
                                         <td>
-                                            <%= allUsers[i].last_name %>
+                                            <%= allUsers[i].rating %>
                                         </td>
-                                        <td><a href="/deleteUser?id=<%= allUsers[i].web_user_id %>">
+                                        <td><a href="/deleteReview/<%= allUsers[i].review_id %>">
                                                 <span class="icon is-small">
                                                     <i class="fas fa-trash"></i>
                                                 </span></a>
@@ -54,39 +54,39 @@
                         </table>
                     </div>
                     <% } %>
+                    <form action="addUsername" method="post">
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">Add New Review</label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <p class="control is-expanded">
+                                        <input name="first_name" class="input" type="text" placeholder="First Name">
+                                    </p>
+                                </div>
+                                <div class="field">
+                                    <p class="control is-expanded">
+                                        <input name="last_name" class="input" type="text" placeholder="Last Name">
+                                    </p>
+                                </div>
+                                <div class="field">
+                                    <p class="control is-expanded">
+                                        <input name="last_name" class="input" type="text" placeholder="Last Name">
+                                    </p>
+                                </div>
+                                <div class="field">
+                                    <button class="button is-link">
+                                        <span>Add</span>
+                                        <span class="icon is-small">
+                                            <i class="fas fa-user-plus"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
             </div>
-            <form action="addUser" method="post">
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                        <label class="label">Add New Review</label>
-                    </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <p class="control is-expanded">
-                                <input name="first_name" class="input" type="text" placeholder="First Name">
-                            </p>
-                        </div>
-                        <div class="field">
-                            <p class="control is-expanded">
-                                <input name="last_name" class="input" type="text" placeholder="Last Name">
-                            </p>
-                        </div>
-                        <div class="field">
-                            <p class="control is-expanded">
-                                <input name="last_name" class="input" type="text" placeholder="Last Name">
-                            </p>
-                        </div>
-                        <div class="field">
-                            <button class="button is-link">
-                                <span>Add</span>
-                                <span class="icon is-small">
-                                    <i class="fas fa-user-plus"></i>
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </form>
 
 
 

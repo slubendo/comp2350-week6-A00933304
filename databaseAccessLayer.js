@@ -3,8 +3,8 @@ const database = include('/databaseConnection');
 
 async function getAllRestaurants() { 	
 	let sqlQuery = `
-		SELECT name, description
-		FROM restaurant_review;
+		SELECT restaurant_id, name, description
+		FROM restaurant;
 	`;
 
 	try {
@@ -13,7 +13,7 @@ async function getAllRestaurants() {
 		return results[0];
 	}
 	catch (err) {
-		console.log("Error selecting from todo table");
+		console.log("Error selecting from restaurant table");
 		console.log(err);
 		return null;
 	}
@@ -21,7 +21,7 @@ async function getAllRestaurants() {
 
 async function getAllReviews() {
 	let sqlQuery = `
-		SELECT details, reviewer_name, rating,
+		SELECT review_id, restaurant, reviewer_name,details, rating
 		FROM review;
 	`;
 
@@ -31,44 +31,28 @@ async function getAllReviews() {
 		return results[0];
 	}
 	catch (err) {
-		console.log("Error selecting from todo table");
+		console.log("Error selecting from review table");
 		console.log(err);
 		return null;
 	}
 }
 
-
-const passwordPepper = "SeCretPeppa4MySal+";
-
 async function addRestaurant(postData) {
+	console.log(postData)
 	let sqlInsertSalt = `
-   INSERT INTO restaurant (name, description, password_salt)
-   VALUES (:first_name, :last_name, :email, sha2(UUID(),512));
+   INSERT INTO restaurant (name, description)
+   VALUES (:first_name, :last_name);
    `;
 	let params = {
 		first_name: postData.first_name,
 		last_name: postData.last_name,
-		email: postData.email
 	};
 	console.log(sqlInsertSalt);
 	try {
 		const results = await database.query(sqlInsertSalt, params);
 		let insertedID = results.insertId;
-		let updatePasswordHash = `
-   UPDATE restaurant
-   SET password_hash = sha2(concat(:password,:pepper,password_salt),512)
-   WHERE restaurant = :userId;
-   `;
-		let params2 = {
-			password: postData.password,
-			pepper: passwordPepper,
-			userId: insertedID
-		}
-		console.log(updatePasswordHash);
-		const results2 = await database.query(updatePasswordHash, params2);
-		return true;
-	}
-	catch (err) {
+
+	} catch (err) {
 		console.log(err);
 		return false;
 	}
@@ -76,8 +60,8 @@ async function addRestaurant(postData) {
 
 async function addReview(postData) {
 	let sqlInsertSalt = `
-   INSERT INTO review (restaurant, reviewer_name, details, rating, password_salt)
-   VALUES (:first_name, :last_name, :email, :last_name, sha2(UUID(),512));
+   INSERT INTO review (restaurant, reviewer_name, details, rating)
+   VALUES (:first_name, :last_name, :email, :last_name);
    `;
 	let params = {
 		first_name: postData.first_name,
@@ -88,33 +72,21 @@ async function addReview(postData) {
 	try {
 		const results = await database.query(sqlInsertSalt, params);
 		let insertedID = results.insertId;
-		let updatePasswordHash = `
-   UPDATE review
-   SET password_hash = sha2(concat(:password,:pepper,password_salt),512)
-   WHERE review = :userId;
-   `;
-		let params2 = {
-			password: postData.password,
-			pepper: passwordPepper,
-			userId: insertedID
-		}
-		console.log(updatePasswordHash);
-		const results2 = await database.query(updatePasswordHash, params2);
-		return true;
-	}
-	catch (err) {
+
+	} catch (err) {
 		console.log(err);
 		return false;
 	}
 }
 
-async function deleteRestaurant(webUserId) {
+async function deleteRestaurant(userId) {
+	console.log(userId)
 	let sqlDeleteUser = `
    DELETE FROM restaurant
-   WHERE restaurant_id = :userID
+   WHERE restaurant_id = :userId
    `;
 	let params = {
-		userID: webUserId
+		userId: userId
 	};
 	console.log(sqlDeleteUser);
 	try {
@@ -127,13 +99,13 @@ async function deleteRestaurant(webUserId) {
 	}
 }
 
-async function deleteReview(webUserId) {
+async function deleteReview(userId) {
 	let sqlDeleteUser = `
-   DELETE FROM restaurant_review
-   WHERE restaurant_review_id = :userID
+   DELETE FROM restaurant
+   WHERE restaurant_review_id = :userId
    `;
 	let params = {
-		userID: webUserId
+		userId: userId
 	};
 	console.log(sqlDeleteUser);
 	try {
@@ -147,4 +119,4 @@ async function deleteReview(webUserId) {
 }
 
 
-module.exports = { getAllRestaurants, getAllReviews, addRestaurant, deleteRestaurant, deleteRestaurant, addReview }
+module.exports = { getAllRestaurants, getAllReviews, addRestaurant, deleteRestaurant, deleteReview, addReview }

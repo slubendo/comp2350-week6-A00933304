@@ -19,6 +19,7 @@
 						<table class="table is-bordered is-hoverable is-striped is-narrow">
 							<thead>
 								<tr>
+									<th> Id </th>
 									<th> Name </th>
 									<th> Description </th>
 									<th> &nbsp; </th>
@@ -29,17 +30,20 @@
 								<% for(i=0; i < allUsers.length; i++) { %>
 									<tr>
 										<td>
-											<%= allUsers[i].first_name %>
+											<%= allUsers[i].restaurant_id %>
 										</td>
 										<td>
-											<%= allUsers[i].last_name %>
+											<%= allUsers[i].name %>
 										</td>
-										<td><a href="/deleteUser?id=<%= allUsers[i].web_user_id %>">
+										<td>
+											<%= allUsers[i].description %>
+										</td>
+										<td><a href="/deleteUser/<%= allUsers[i].restaurant_id %>">
 												<span class="icon is-small">
 													<i class="fas fa-trash"></i>
 												</span></a>
 										</td>
-										<td><a href="/deleteUser?id=<%= allUsers[i].web_user_id %>">
+										<td><a href="/showReview/<%= allUsers[i].restaurant_id %>">
 												<span class="icon is-small">
 													<i class="fas fa-star"></i>
 												</span></a>
